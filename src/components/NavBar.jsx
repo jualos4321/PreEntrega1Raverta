@@ -9,29 +9,48 @@ import {
   Spacer
 } from '@chakra-ui/react'
 import CarWidget from './CarWidget'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   return (
     <div>
       <Flex>
         <Box p='4'>
+        <Link to={"/"}>
           <h3>Tristore</h3>
+          </Link>
         </Box>
         <Box p='4'>
           <Menu>
             <MenuButton>
-              Categories
+              Categorias
             </MenuButton>
             <MenuList>
-              <MenuItem>Category A</MenuItem>
-              <MenuItem>Category B</MenuItem>
-              <MenuItem>Category c</MenuItem>
+              <MenuItem>
+                <Link to={`/categoria/${"A"}`}>
+              Categoria A
+              </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={`/categoria/${"B"}`}>
+              Categoria B
+              </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={`/categoria/${"C"}`}>
+              Categoria C
+              </Link>
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>
         <Spacer />
         <Box p="4">
+          <Link to={"/cart/"}>
           <CarWidget />
+          </Link>
+        </Box>
+        <Box pt="10">
         </Box>
       </Flex>
 

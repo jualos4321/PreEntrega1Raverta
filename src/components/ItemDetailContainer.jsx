@@ -1,11 +1,10 @@
-import { Box, Flex, Spacer } from '@chakra-ui/react'
 import React from 'react'
-import ItemList from './ItemList'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import ItemDetail from './ItemDetail'
 
-const ItemListContainer = ({ greeting }) => {
-    const {categoria} = useParams ()
-    
+
+const ItemDetailContainer = () => {
+
     const productos = [
         { id: 1, nombre: "producto1", descripcion: "descripcion1", categoria: "A" },
         { id: 2, nombre: "producto2", descripcion: "descripcion2", categoria: "A" },
@@ -31,23 +30,13 @@ const ItemListContainer = ({ greeting }) => {
             console.log(Error)
         })
 
-        const filtredProducts = productos.filter((producto) => producto.categoria === categoria)
-    
     return (
         <>
-            <Flex>
-                <Spacer />
-                <Box pr="770">
-                    <h1>{greeting}</h1>
-                </Box>
-            </Flex>
-            <Flex>
-                {
-                categoria ? <ItemList productos={filtredProducts} /> : <ItemList productos={productos} />
-                }
-            </Flex>
+
+            <ItemDetail productos={productos} />
         </>
+
     )
 }
 
-export default ItemListContainer
+export default ItemDetailContainer
