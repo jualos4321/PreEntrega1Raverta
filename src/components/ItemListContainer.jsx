@@ -1,51 +1,39 @@
 import { Box, Flex, Spacer } from '@chakra-ui/react'
-import React from 'react'
-import ItemList from './ItemList'
+import React, { useEffect, useState } from 'react'
+import Item from './Item'
 import { useParams } from 'react-router-dom'
+import {collection, getDocs, getFirestore} from 'firebase/firestore'
 
 const ItemListContainer = ({ greeting }) => {
     const {categoria} = useParams ()
-    
-    const productos = [
-        { id: 1, nombre: "producto1", descripcion: "descripcion1", categoria: "A" },
-        { id: 2, nombre: "producto2", descripcion: "descripcion2", categoria: "A" },
-        { id: 3, nombre: "producto3", descripcion: "descripcion3", categoria: "B" },
-        { id: 4, nombre: "producto4", descripcion: "descripcion4", categoria: "B" },
-        { id: 5, nombre: "producto5", descripcion: "descripcion5", categoria: "C" }
-    ]
+    const [productos, setproductos] = useState ([])
 
-    const getProductos = new Promise((resolve, reject) => {
-        if (productos.length > 0) {
-            setTimeout(() => {
-                resolve(productos)
-            }, 2000)
-        } else {
-            reject(new Error("no hay datos"))
-        }
-    })
+    useEffect(()=>{
+        const db = getFirestore()
 
-    getProductos
-        .then((res) => {
+        const itemscollection = collection(db, "ropa")
+        getDocs(itemscollection).then((snapshot)=>{
+            const docs = snapshot.docs.map((doc)=> 
+            ({
+              ...doc.data(), id:doc.id
+            }))
+            setproductos(docs)
         })
-        .catch((err) => {
-            console.log(Error)
-        })
+    }, [])
+   
 
         const filtredProducts = productos.filter((producto) => producto.categoria === categoria)
     
     return (
         <>
-            <Flex>
-                <Spacer />
-                <Box pr="770">
-                    <h1>{greeting}</h1>
-                </Box>
-            </Flex>
-            <Flex>
-                {
-                categoria ? <ItemList productos={filtredProducts} /> : <ItemList productos={productos} />
-                }
-            </Flex>
+       
+        {
+            productos.map((p)=>(
+                <div key={p.nombre}>
+                </div>
+            ))
+        }
+        
         </>
     )
 }

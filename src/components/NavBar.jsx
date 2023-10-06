@@ -6,7 +6,8 @@ import {
   MenuItem,
   Flex,
   Box,
-  Spacer
+  Spacer,
+  Button
 } from '@chakra-ui/react'
 import CarWidget from './CarWidget'
 import { Link } from 'react-router-dom'
@@ -14,7 +15,7 @@ import { Link } from 'react-router-dom'
 const NavBar = () => {
   return (
     <div>
-      <Flex>
+      <Flex bg={'blue.400'}>
         <Box p='4'>
         <Link to={"/"}>
           <h3>Tristore</h3>
@@ -53,7 +54,6 @@ const NavBar = () => {
         <Box pt="10">
         </Box>
       </Flex>
-
     </div>
   )
 }

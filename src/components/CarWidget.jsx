@@ -1,8 +1,11 @@
 import { SunIcon, WarningIcon } from '@chakra-ui/icons'
 import { Box, Divider, Flex } from '@chakra-ui/react'
 import React from 'react'
+import { useContext } from 'react'
+import { CartContext } from '../context/ShopingCartContext'
 
 const CarWidget = () => {
+    const { cart } = useContext(CartContext)
     return (
         <div>
             <Flex>
@@ -13,7 +16,11 @@ const CarWidget = () => {
                 </Box>
                 <Divider />
                 <Box>
-                    <p>2</p>
+                    {cart.map((p)=>(
+                        <div key={p.nombre}>
+                            {p.quantity}
+                        </div>
+                    ))}
                 </Box>
             </Flex>
 

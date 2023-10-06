@@ -1,40 +1,43 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, } from 'react'
 import ItemDetail from './ItemDetail'
+import {doc, getDoc, getFirestore} from 'firebase/firestore'
+import { useParams } from 'react-router-dom'
+import { db } from '../main'
 
 
 const ItemDetailContainer = () => {
+    const { id } = useParams()
+    const [productos, setproductos] = useState([])
 
-    const productos = [
-        { id: 1, nombre: "producto1", descripcion: "descripcion1", categoria: "A" },
-        { id: 2, nombre: "producto2", descripcion: "descripcion2", categoria: "A" },
-        { id: 3, nombre: "producto3", descripcion: "descripcion3", categoria: "B" },
-        { id: 4, nombre: "producto4", descripcion: "descripcion4", categoria: "B" },
-        { id: 5, nombre: "producto5", descripcion: "descripcion5", categoria: "C" }
-    ]
+    useEffect (()=>{
+        const docRef = doc(db, 'ropa', `${id}`)
 
-    const getProductos = new Promise((resolve, reject) => {
-        if (productos.length > 0) {
-            setTimeout(() => {
-                resolve(productos)
-            }, 2000)
-        } else {
-            reject(new Error("no hay datos"))
-        }
-    })
-
-    getProductos
-        .then((res) => {
+        getDoc(docRef)
+        .then(response =>{
+            const data = response.data()
+            const productAdapted = {id: response.id, ...data}
+            setproductos(productAdapted)
         })
-        .catch((err) => {
-            console.log(Error)
+        .catch(error =>{
+            console.log("error")
         })
-
+    },[id])
+    // useEffect(()=>{
+    //     const db = getFirestore()
+    //     const oneitem = doc(db, "ropa", `${id}`)
+    //     getDoc(oneitem).then((snapshot)=>{
+    //         if(snapshot.exists()){
+    //             const docs = snapshot.data()
+    //             setproductos(docs)
+    //         }
+    //     })
+    // })
     return (
-        <>
+        <div className='itemdetailcontainer'>
 
-            <ItemDetail productos={productos} />
-        </>
+            <ItemDetail {...productos} />
+        </div>
 
     )
 }
